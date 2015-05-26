@@ -3,16 +3,18 @@ package db;
 import model.UserModel;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DB {
 
-    private static final String DB_HOST="db-tp.cpe.fr";
+    private static final String DB_HOST="localhost";
     private static final String DB_PORT="3306";
-    private static final String DB_NAME="binome32";
-    private static final String DB_USER="binome32";
-    private static final String DB_PWD="binome32";
+    private static final String DB_NAME="stepbystep";
+    private static final String DB_USER="root";
+    private static final String DB_PWD="";
     private Connection connection;
     public DB() {
         try {
@@ -28,13 +30,19 @@ public class DB {
         }
     }
     public ArrayList<UserModel> getData(){
-//return value
+        //return value
         ArrayList<UserModel> userList=new ArrayList<UserModel>();
-// Création de la requête
+        // Création de la requête
         java.sql.Statement query;
+
         try {
-//TODO récupérez l’ensemble des paramètres de tous les utilisateurs de la
-// table ((`surname`, `lastname`, `age`, `login`, `pwd`)
+            query = connection.createStatement();
+            //PreparedStatement querySt = connection.prepareStatement("SELECT * FROM user");
+            ResultSet rst = query.executeQuery("SELECT * FROM user");
+
+            while (rst.next()) {
+                System.out.println("Chaine : " + rst.getString("surname"));
+            }
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
