@@ -1,6 +1,7 @@
 package servlet;
 
 import db.DB;
+import model.UserModel;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,17 +27,23 @@ public class Servlet1 extends HttpServlet {
         db=new DB();
     }
     /**
-     * @see /*HttpServletdoGet(HttpServletRequest request, HttpServletResponse response)
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//TODO Lors de l’appel de http get utiliser les classes précédement créer pour récupérer la liste des utilisateurs
-//TODO écrire la liste des utilisateurs dans le flux de réponse HttpServletResponse
+//Crée un utilisateur depuis les informations transmises
+//ATTENTION ERREUR SI LES INFOS TRANSMISES SONT INEXACTE
+        UserModel user=new UserModel(request.getParameter("lastname"),request.getParameter("surname"),Integer.valueOf(request.getParameter("age")), request.getParameter("login"), request.getParameter("pwd"));
+//Demande à DB d'ajouter l'utlisateur
+        db.addUser(user);
     }
     /**
-     * @see HttpServlet/*doPost(HttpServletRequest request, HttpServletResponse response)
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//redirection sur le doGet car même action
+        doGet(request, response);
     }
+
 }
